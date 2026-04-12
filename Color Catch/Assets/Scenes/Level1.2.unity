@@ -5435,6 +5435,7 @@ MonoBehaviour:
   gradualColor: 0
   minSpawnDistance: 2
   colorChaning: 0
+  spawnBombs: 1
   spawnSecondBomb: 1
   nextSceneName: 
 --- !u!114 &133901512
@@ -9602,10 +9603,10 @@ SceneRoots:
   - {fileID: 619394802}
   - {fileID: 2053922678}
   - {fileID: 2004407771}
-  - {fileID: 2092998586}
   - {fileID: 1108172322}
   - {fileID: 52796434}
   - {fileID: 1959083405}
   - {fileID: 133901510}
+  - {fileID: 2092998586}
   - {fileID: 1186535010}
   - {fileID: 1092635707}

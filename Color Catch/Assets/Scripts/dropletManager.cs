@@ -6,7 +6,8 @@ public class dropletManager : MonoBehaviour
     public static dropletManager Instance;
 
     public colorTile[] tiles;
-    public int dropletsNeeded = 5;
+    public int dropletsToWin = 5;
+    public int dropletsToChangeColor = 0;
 
     public GameObject dropletPrefab;
     public GameObject bombPrefab;
@@ -15,11 +16,13 @@ public class dropletManager : MonoBehaviour
     public float minSpawnDistance = 2f;
 
     public bool colorChaning = false;
+    public bool spawnBombs = true;
     public bool spawnSecondBomb = false;
 
     [SerializeField] private string nextSceneName;
 
-    private int collected = 0;
+    private int collectedForColor = 0;
+    private int collectedForLevel = 0;
     private Vector3 lastDropletPos;
 
     private GameObject currentDroplet;
@@ -38,31 +41,36 @@ public class dropletManager : MonoBehaviour
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         SpawnDroplet();
-        SpawnBombs();
-        if (spawnSecondBomb) SpawnBombs();
+        if (spawnBombs) SpawnBombs();
     }
 
     public void CollectDroplet()
     {
+        collectedForColor++;
+        collectedForLevel++;
         scoreScript.Instance.AddScore(1);
-        collected++;
 
+        //allowing color chaning for some levels
         if (colorChaning){
         colorManager.Instance.GenerateNewColor();
         PlayerColorManager.Instance.GenerateNewColorPlayer();
         
 
+        //Gradient black to color logic
         if (gradualColor)
         {
-            float progress = Mathf.Clamp01((float)collected / dropletsNeeded);
+            float progress = Mathf.Clamp01((float)collectedForColor / dropletsToChangeColor);
             foreach (colorTile t in tiles)
                 t.RestoreColor(progress);
 
-            if (collected >= dropletsNeeded)
+            if (collectedForColor >= dropletsToChangeColor)
             {
-                collected = 0;
+                collectedForColor = 0;
                 foreach (colorTile tile in tiles)
                     tile.ApplyCurrentColor();
+
+                colorManager.Instance.GenerateNewColor();
+                PlayerColorManager.Instance.GenerateNewColorPlayer();
             }
         }
         else
@@ -71,20 +79,21 @@ public class dropletManager : MonoBehaviour
                 tile.ApplyCurrentColor();
         }
         }
-        if (collected >= dropletsNeeded)
+        //Win statement
+        if (collectedForLevel >= dropletsToWin)
         {
             AudioManager.Instance.PlayLevelComplete(nextSceneName);
         }
 
         SpawnDroplet();
-        SpawnBombs();
-        if(spawnSecondBomb)SpawnBombs();
+        if(spawnBombs)SpawnBombs();
     }
 
     public void CollectBomb()
     {
         scoreScript.Instance.AddScore(-2);
-        collected -= 2;
+        collectedForLevel -= 2;
+        collectedForColor -=2;
 
         if(colorChaning){
         colorManager.Instance.GenerateNewColor();
@@ -93,7 +102,7 @@ public class dropletManager : MonoBehaviour
 
         if (gradualColor)
         {
-            float progress = Mathf.Clamp01((float)collected / dropletsNeeded);
+            float progress = Mathf.Clamp01((float)collectedForColor / dropletsToChangeColor);
             foreach (colorTile t in tiles)
                 t.RestoreColor(progress);
         }
@@ -105,8 +114,7 @@ public class dropletManager : MonoBehaviour
         }
 
         SpawnDroplet();
-        SpawnBombs();
-        if(spawnSecondBomb) SpawnBombs();
+        if(spawnBombs)SpawnBombs();
     }
 
     private Vector3 GetRandomPositionAwayFrom(Vector3 otherPos)
@@ -145,21 +153,20 @@ public class dropletManager : MonoBehaviour
     public void SpawnBombs()
     {
         if (bombPrefab == null) return;
-        if(spawnFirstBomb){
-        if(currentBomb1 != null) Destroy(currentBomb1);
-        int attempts = 0;
-        Vector3 bombPos = GetRandomPositionAwayFrom(lastDropletPos); 
+
+        if (currentBomb1 != null) Destroy(currentBomb1);
+        if (currentBomb2 != null) Destroy(currentBomb2);
+
+        Vector3 bombPos = GetRandomPositionAwayFrom(lastDropletPos);
         currentBomb1 = Instantiate(bombPrefab, bombPos, Quaternion.identity);
-        Bomb b = currentBomb1.GetComponent<Bomb>();
-        if (b != null) b.SetColor(colorManager.Instance.CurrentColor);
-        }
-        else
+        Bomb b1 = currentBomb1.GetComponent<Bomb>();
+        if (b1 != null) b1.SetColor(colorManager.Instance.CurrentColor);
+
+        if (spawnSecondBomb)
         {
-            if (currentBomb2 != null)Destroy(currentBomb2);
-            Vector3 bombPos =GetRandomPositionAwayFrom(lastDropletPos);
-            currentBomb2 = Instantiate(bombPrefab,bombPos, Quaternion.identity);
-            Bomb b = currentBomb2.GetComponent<Bomb>();
-            if (b != null) b.SetColor(colorManager.Instance.CurrentColor);
+            Vector3 bombPos2 = GetRandomPositionAwayFrom(lastDropletPos);
+            currentBomb2 = Instantiate(bombPrefab, bombPos2, Quaternion.identity);
+            Bomb b2 = currentBomb2.GetComponent<Bomb>();
+            if (b2 != null) b2.SetColor(colorManager.Instance.CurrentColor);
         }
-        spawnFirstBomb = !spawnFirstBomb;
 }}

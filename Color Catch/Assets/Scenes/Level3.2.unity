@@ -9603,8 +9603,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   health: 0
   maxHealth: 5
-  playerSr: {fileID: 2092998585}
-  playerScript: {fileID: 2092998587}
 --- !u!114 &2092998589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9635,11 +9633,11 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 619394802}
   - {fileID: 2053922678}
-  - {fileID: 2004407771}
-  - {fileID: 2092998586}
   - {fileID: 1108172322}
   - {fileID: 52796434}
   - {fileID: 1959083405}
   - {fileID: 133901510}
   - {fileID: 1186535010}
   - {fileID: 774736466}
+  - {fileID: 2092998586}
+  - {fileID: 2004407771}
