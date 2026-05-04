@@ -1665,7 +1665,8 @@ MonoBehaviour:
   tiles:
   - {fileID: 979713368}
   - {fileID: 349659900}
-  dropletsNeeded: 5
+  dropletsToWin: 5
+  dropletsToChangeColor: 0
   dropletPrefab: {fileID: 569295365212206074, guid: c10ae44d036f63242ab2dfde9c6405ed, type: 3}
   bombPrefab: {fileID: 8234909487236918816, guid: 8501e5c616bb6284a91cd99982743dd9, type: 3}
   gradualColor: 0

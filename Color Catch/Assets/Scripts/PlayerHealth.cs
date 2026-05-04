@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class PlayerHealth : MonoBehaviour
 {
     public int health;
@@ -18,8 +18,12 @@ public class PlayerHealth : MonoBehaviour
         health -= amount;
         if (health <= 0)
         {
-            playerSr.enabled = false;
-            playerScript.enabled = false;
+            Die();
         }
+    }
+
+    private void Die()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

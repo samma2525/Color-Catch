@@ -5434,14 +5434,16 @@ MonoBehaviour:
   tiles:
   - {fileID: 860782894}
   - {fileID: 44647094}
-  dropletsNeeded: 5
+  dropletsToWin: 5
+  dropletsToChangeColor: 0
   dropletPrefab: {fileID: 569295365212206074, guid: c10ae44d036f63242ab2dfde9c6405ed, type: 3}
   bombPrefab: {fileID: 8234909487236918816, guid: 8501e5c616bb6284a91cd99982743dd9, type: 3}
   gradualColor: 0
   minSpawnDistance: 2
   colorChaning: 1
+  spawnBombs: 1
   spawnSecondBomb: 1
-  nextSceneName: 
+  nextSceneName: level4.2
 --- !u!114 &133901512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8317,10 +8319,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3

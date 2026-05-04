@@ -13,12 +13,16 @@ public class patrollingenemy : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
     private Transform currentPoint;
+
+    [SerializeField] private AudioClip hitSound;
+    private AudioSource audioSource;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         currentPoint = pointB.transform;
         anim.SetBool("isRunning", true);
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -43,7 +47,6 @@ public class patrollingenemy : MonoBehaviour
 
     private void MovingOnX()
     {
-        vertical = false;
         Vector2 point= currentPoint.position - transform.position;
         if ( currentPoint == pointB.transform) 
         {
@@ -68,7 +71,6 @@ public class patrollingenemy : MonoBehaviour
 
     private void MovingOnY()
     {
-        horizontal = false;
         Vector2 point = currentPoint.position - transform.position;
         if(currentPoint == pointB.transform)
         {
@@ -87,6 +89,14 @@ public class patrollingenemy : MonoBehaviour
         if(Vector2.Distance(transform.position, currentPoint.position) < 0.5f &&currentPoint == pointA.transform)
         {
             currentPoint = pointB.transform;
+        }
+    }
+
+    private void OnTRiggerEnter2D(Collider other)
+    {
+        if (other.CompareTag("Player") && hitSound != null)
+        {
+            audioSource.PlayOneShot(hitSound);
         }
     }
 }
